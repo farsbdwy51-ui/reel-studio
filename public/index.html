@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ريل ستوديو v1</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>ريل ستوديو <span class="tag">v1</span></h1>
+  <button id="settingsBtn" class="ghost">⚙ الإعدادات</button>
+</header>
+
+<section class="card" id="newProject">
+  <h2>ريل جديد</h2>
+  <label>الموضوع</label>
+  <input id="topic" type="text" placeholder="مثال: ليه السما زرقا؟">
+  <div class="row">
+    <div>
+      <label>مدة الفيديو</label>
+      <select id="length">
+        <option value="10" selected>10 ثواني</option>
+        <option value="20">20 ثانية</option>
+        <option value="30">30 ثانية</option>
+        <option value="45">45 ثانية</option>
+        <option value="60">60 ثانية</option>
+      </select>
+    </div>
+    <div>
+      <label>الموافقات</label>
+      <select id="approvalMode">
+        <option value="auto" selected>كمّل تلقائي</option>
+        <option value="manual">استنى موافقتي في كل مرحلة</option>
+      </select>
+    </div>
+  </div>
+  <button id="createBtn" class="primary">🎬 اعمل الريل</button>
+</section>
+
+<section id="projectView" class="hidden">
+  <div class="row between">
+    <h2 id="projTitle"></h2>
+    <span id="projStatus" class="pill"></span>
+  </div>
+  <div id="stages"></div>
+  <div class="card">
+    <h3>السكريبت</h3>
+    <pre id="scriptStream" class="stream"></pre>
+    <textarea id="scriptEdit" class="hidden" rows="8"></textarea>
+    <div class="row">
+      <button id="editScriptBtn" class="ghost hidden">✏ عدّل</button>
+      <button id="saveScriptBtn" class="ghost hidden">💾 احفظ التعديل</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>صوت بديل (اختياري)</h3>
+    <p class="hint">ارفع تسجيل صوتك بدل TTS — التوقيت هيتستخرج بـ Deepgram</p>
+    <input type="file" id="audioFile" accept="audio/*">
+    <button id="uploadAudioBtn" class="ghost">⬆ ارفع الصوت</button>
+  </div>
+  <div class="card">
+    <h3>المعاينة والنتيجة</h3>
+    <img id="preview" class="preview hidden" alt="معاينة حية">
+    <div id="renderProgress" class="hidden"><progress id="prog" max="1" value="0"></progress><span id="progText"></span></div>
+    <video id="video" class="hidden" controls playsinline></video>
+    <img id="contactSheet" class="sheet hidden" alt="contact sheet">
+  </div>
+  <div class="card">
+    <h3>الستوري بورد</h3>
+    <pre id="storyboardJson" class="stream small"></pre>
+  </div>
+</section>
+
+<dialog id="settingsDialog">
+  <h2>الإعدادات</h2>
+  <form id="settingsForm" method="dialog">
+    <label>LLM Base URL (OpenAI-compatible)</label>
+    <input name="llmBaseUrl" type="text">
+    <label>الموديل</label>
+    <input name="llmModel" type="text">
+    <label>ElevenLabs Base URL</label>
+    <input name="elevenlabsBaseUrl" type="text">
+    <label>مفتاح ElevenLabs <span class="hint">(<a href="https://elevenlabs.io/app/developers/" target="_blank">هاته من هنا</a>)</span></label>
+    <input name="elevenlabsKey" type="text" placeholder="••••" autocomplete="off">
+    <label>Voice ID</label>
+    <div class="row">
+      <input name="elevenlabsVoiceId" type="text">
+      <button id="loadVoicesBtn" type="button" class="ghost">تحميل الأصوات</button>
+    </div>
+    <select id="voicesList" class="hidden"></select>
+    <label>Deepgram Base URL</label>
+    <input name="deepgramBaseUrl" type="text">
+    <label>مفتاح Deepgram <span class="hint">(<a href="https://console.deepgram.com/" target="_blank">هاته من هنا</a>)</span></label>
+    <input name="deepgramKey" type="text" placeholder="••••" autocomplete="off">
+    <label>فولدر الخط (اختياري — بديل IBM Plex Sans Arabic)</label>
+    <input name="fontFolder" type="text" placeholder="/path/to/fonts">
+    <menu>
+      <button value="cancel" class="ghost">قفل</button>
+      <button id="saveSettingsBtn" value="default" class="primary">احفظ</button>
+    </menu>
+  </form>
+</dialog>
+
+<script src="app.js"></script>
+</body>
+</html>
